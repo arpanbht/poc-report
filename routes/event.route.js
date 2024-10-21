@@ -31,6 +31,16 @@ import {
   rejectWorkshop,
 } from "../controllers/event.controller.js";
 
+import {
+  editConference,
+  editConsultancy,
+  editEventCompetition,
+  editPatent,
+  editProjectProposal,
+  editPublication,
+  editWorkshop,
+} from "../controllers/event.controller.js";
+
 const router = Router();
 
 // routes for creating event
@@ -53,29 +63,60 @@ router.post("/approve-conference/:id", verifyUser, approveConference);
 
 router.post("/approve-consultancy/:id", verifyUser, approveConsultancy);
 
-router.post("/approve-event-cometition/:id", verifyUser, approveEventCompetition);
+router.post(
+  "/approve-event-cometition/:id",
+  verifyUser,
+  approveEventCompetition
+);
 
 router.post("/approve-patent/:id", verifyUser, approvePatent);
 
-router.post("/approve-project-proposal/:id", verifyUser, approveProjectProposal);
+router.post(
+  "/approve-project-proposal/:id",
+  verifyUser,
+  approveProjectProposal
+);
 
 router.post("/approve-publication/:id", verifyUser, approvePublication);
 
 router.post("/approve-workshop/:id", verifyUser, approveWorkshop);
 
 // routes for rejecting event
-router.post("/reject-conference/:id", verifyUser, rejectConference);
+router.delete("/reject-conference/:id", verifyUser, rejectConference);
 
-router.post("/reject-consultancy/:id", verifyUser, rejectConsultancy);
+router.delete("/reject-consultancy/:id", verifyUser, rejectConsultancy);
 
-router.post("/reject-event-cometition/:id", verifyUser, rejectEventCompetition);
+router.delete(
+  "/reject-event-cometition/:id",
+  verifyUser,
+  rejectEventCompetition
+);
 
-router.post("/reject-patent/:id", verifyUser, rejectPatent);
+router.delete("/reject-patent/:id", verifyUser, rejectPatent);
 
-router.post("/reject-project-proposal/:id", verifyUser, rejectProjectProposal);
+router.delete(
+  "/reject-project-proposal/:id",
+  verifyUser,
+  rejectProjectProposal
+);
 
-router.post("/reject-publication/:id", verifyUser, rejectPublication);
+router.delete("/reject-publication/:id", verifyUser, rejectPublication);
 
-router.post("/reject-workshop/:id", verifyUser, rejectWorkshop);
+router.delete("/reject-workshop/:id", verifyUser, rejectWorkshop);
+
+// routes for editing the events
+router.put("/edit-project-proposal/:id", verifyUser, editProjectProposal);
+
+router.put("/edit-publication/:id", verifyUser, editPublication);
+
+router.put("/edit-conference/:id", verifyUser, editConference);
+
+router.put("/edit-workshop/:id", verifyUser, editWorkshop);
+
+router.put("/edit-patent/:id", verifyUser, editPatent);
+
+router.put("/edit-consultancy/:id", verifyUser, editConsultancy);
+
+router.put("/edit-event-competition/:id", verifyUser, editEventCompetition);
 
 export default router;

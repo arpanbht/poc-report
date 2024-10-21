@@ -626,3 +626,216 @@ export const rejectEventCompetition = async (req, res) => {
     res.status(500).json({ success: false, error: err.message });
   }
 };
+
+// Edit a project proposal by ID
+export const editProjectProposal = expressAsyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    if (req.user.contentAccess === "edit") {
+      const updatedProjectProposal = await ProjectProposal.findByIdAndUpdate(
+        id,
+        req.body,
+        { new: true } // Return the updated document
+      );
+
+      if (!updatedProjectProposal) {
+        return res.status(404).json({ message: "Project proposal not found" });
+      }
+
+      res.status(200).json({
+        message: "Project proposal updated successfully",
+        data: updatedProjectProposal,
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Do not have permission",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Edit a publication by ID
+export const editPublication = expressAsyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    if (req.user.contentAccess === "edit") {
+      const updatedPublication = await Publication.findByIdAndUpdate(
+        id,
+        req.body,
+        { new: true }
+      );
+
+      if (!updatedPublication) {
+        return res.status(404).json({ message: "Publication not found" });
+      }
+
+      res.status(200).json({
+        message: "Publication updated successfully",
+        data: updatedPublication,
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Do not have permission",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Edit a conference by ID
+export const editConference = expressAsyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    if (req.user.contentAccess === "edit") {
+      const updatedConference = await Conference.findByIdAndUpdate(
+        id,
+        req.body,
+        { new: true }
+      );
+
+      if (!updatedConference) {
+        return res.status(404).json({ message: "Conference not found" });
+      }
+
+      res.status(200).json({
+        message: "Conference updated successfully",
+        data: updatedConference,
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Do not have permission",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Edit a workshop by ID
+export const editWorkshop = expressAsyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    if (req.user.contentAccess === "edit") {
+      const updatedWorkshop = await Workshop.findByIdAndUpdate(id, req.body, {
+        new: true,
+      });
+
+      if (!updatedWorkshop) {
+        return res.status(404).json({ message: "Workshop not found" });
+      }
+
+      res.status(200).json({
+        message: "Workshop updated successfully",
+        data: updatedWorkshop,
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Do not have permission",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Edit a patent by ID
+export const editPatent = expressAsyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    if (req.user.contentAccess === "edit") {
+      const updatedPatent = await Patent.findByIdAndUpdate(id, req.body, {
+        new: true,
+      });
+
+      if (!updatedPatent) {
+        return res.status(404).json({ message: "Patent not found" });
+      }
+
+      res.status(200).json({
+        message: "Patent updated successfully",
+        data: updatedPatent,
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Do not have permission",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Edit a consultancy by ID
+export const editConsultancy = expressAsyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    if (req.user.contentAccess === "edit") {
+      const updatedConsultancy = await Consultancy.findByIdAndUpdate(
+        id,
+        req.body,
+        { new: true }
+      );
+
+      if (!updatedConsultancy) {
+        return res.status(404).json({ message: "Consultancy not found" });
+      }
+
+      res.status(200).json({
+        message: "Consultancy updated successfully",
+        data: updatedConsultancy,
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Do not have permission",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Edit an event competition by ID
+export const editEventCompetition = expressAsyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    if (req.user.contentAccess === "edit") {
+      const updatedEventCompetition = await EventCompetition.findByIdAndUpdate(
+        id,
+        req.body,
+        { new: true }
+      );
+
+      if (!updatedEventCompetition) {
+        return res.status(404).json({ message: "Event competition not found" });
+      }
+
+      res.status(200).json({
+        message: "Event competition updated successfully",
+        data: updatedEventCompetition,
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Do not have permission",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
