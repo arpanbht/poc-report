@@ -1,49 +1,19 @@
 import asyncHandler from "express-async-handler";
-import jwt from "jsonwebtoken";
 import { sendEmail } from "../utils/sendEmail.js";
 import User from "../models/user.model.js";
 import SuperAdmin from "../models/superadmin.model.js";
-// import bcrypt from "bcryptjs";
 import { Pass } from "../models/pass.model.js";
-
-// Generate JWT
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
-};
-
-// Super Admin register
-// const createSuperAdmin = asyncHandler(async (req, res) => {
-//   const { username, password } = req.body;
-
-//   // Check if a Super Admin already exists
-//   const existingAdmin = await SuperAdmin.findOne();
-//   if (existingAdmin) {
-//     res.status(400);
-//     throw new Error("Super Admin already exists");
-//   }
-
-//   // Create new Super Admin
-//   const superAdmin = await SuperAdmin.create({
-//     username,
-//     password,
-//   });
-
-//   res.status(201).json({
-//     success: true,
-//     message: "User successfully registered",
-//     data: {
-//       _id: superAdmin._id,
-//       username: superAdmin.username,
-//     },
-//   });
-// });
+import {
+  generateTokenForAdmin,
+  generateTokenForUser,
+} from "../utils/generateToken.js";
 
 // Super Admin Login
 const loginSuperAdmin = asyncHandler(async (req, res) => {
   const { username, password } = req.body;
   const admin = await SuperAdmin.findOne({ username: username });
 
-  const token = await generateToken(admin?._id);
+  const token = await generateTokenForAdmin(admin?._id);
 
   if (admin && (await admin.matchPassword(password))) {
     res
@@ -83,7 +53,8 @@ const addUser = asyncHandler(async (req, res) => {
   await sendEmail(
     useremail,
     "Temporary Password",
-    `Your temporary password is ${tempPassword}.`
+    `Your temporary password is ${tempPassword}.`,
+    "Valid for 1 day"
   );
 
   // Create a new user
@@ -98,7 +69,7 @@ const addUser = asyncHandler(async (req, res) => {
   });
 
   const pass = await Pass.create({
-    password: tempPassword,
+    tempPassword: tempPassword,
   });
 
   console.log(pass);
@@ -123,17 +94,68 @@ const addUser = asyncHandler(async (req, res) => {
   }
 });
 
+// handle login user
+const userLogin = asyncHandler(async (req, res) => {
+  const { useremail, tempPassword } = req.body;
+
+  if (!useremail)
+    return res.status(400).json({
+      success: false,
+      message: "Useremail is required",
+    });
+
+  const user = await User.findOne({ useremail });
+  console.log(user);
+  if (!user)
+    return res.status(404).json({
+      success: false,
+      message: "User not found",
+    });
+
+  const isPassword = await user.matchPassword(tempPassword);
+  if (!isPassword)
+    return res.status(400).json({
+      success: false,
+      message: "Wrong password",
+    });
+
+  const token = await generateTokenForUser(
+    user._id,
+    user.contentAccess,
+    user.userType,
+    user.role
+  );
+
+  return res
+    .status(200)
+    .set("Authorization", `Bearer ${token}`)
+    .json({
+      success: true,
+      data: {
+        user: user.useremail,
+        token: token,
+      },
+      message: "User logged in successfully",
+    });
+});
+
 // Change password
 const changePassword = asyncHandler(async (req, res) => {
-  const { email, tempPassword, newPassword } = req.body;
+  const { useremail, oldPassword, newPassword } = req.body;
 
-  if (!email)
+  if (!useremail)
     return res.status(400).json({
       success: false,
       message: "Email is required",
     });
 
-  const user = await User.findOne({ useremail: email });
+  if (oldPassword === newPassword)
+    return res.status(400).json({
+      success: false,
+      message: "New password cannot be same as old password",
+    });
+
+  const user = await User.findOne({ useremail });
 
   // console.log(user);
 
@@ -143,8 +165,7 @@ const changePassword = asyncHandler(async (req, res) => {
       message: "User not found",
     });
 
-  const isPassword = await user.matchPassword(tempPassword);
-  // console.log(isPassword);
+  const isPassword = await user.matchPassword(oldPassword);
 
   if (!isPassword)
     return res.status(400).json({
@@ -155,10 +176,10 @@ const changePassword = asyncHandler(async (req, res) => {
   user.password = newPassword;
   await user.save({ validateBeforeSave: false });
 
-  return res.status(400).json({
+  return res.status(200).json({
     success: true,
     message: "Password changed successfully",
   });
 });
 
-export { loginSuperAdmin, addUser, changePassword };
+export { loginSuperAdmin, addUser, changePassword, userLogin };

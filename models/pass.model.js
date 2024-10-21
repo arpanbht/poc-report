@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const passSchema = new Schema({
-  password: {
+  tempPassword: {
     type: String,
     required: true,
   },

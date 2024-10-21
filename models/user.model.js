@@ -14,6 +14,10 @@ const userSchema = new Schema(
       enum: ["edit", "view"], // Only allows 'edit' or 'view'
       required: true,
     },
+    userType: {
+      type: String,
+      enum: ["student", "faculty"],
+    },
   },
   { timestamps: true }
 );
