@@ -12,11 +12,16 @@ const userSchema = new Schema(
     contentAccess: {
       type: String,
       enum: ["edit", "view"], // Only allows 'edit' or 'view'
+      default: "view",
       required: true,
     },
     userType: {
       type: String,
       enum: ["student", "faculty"],
+    },
+    totalScore: {
+      type: Number,
+      default: 0,
     },
   },
   { timestamps: true }

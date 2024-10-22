@@ -7,7 +7,7 @@ const verifyAdmin = expressAsyncHandler(async (req, res, next) => {
   try {
     const token = req.header("Authorization")?.replace("Bearer ", "");
 
-    console.log(token);
+    // console.log(token);
 
     if (!token)
       return res.status(401).json({
@@ -16,7 +16,7 @@ const verifyAdmin = expressAsyncHandler(async (req, res, next) => {
       });
 
     const decodedInfo = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decodedInfo);
+    // console.log(decodedInfo);
 
     const admin = await SuperAdmin.findById(decodedInfo?.id).select(
       "-password"
@@ -43,7 +43,7 @@ const verifyUser = expressAsyncHandler(async (req, res, next) => {
   try {
     const token = req.header("Authorization")?.replace("Bearer ", "");
 
-    console.log(token);
+    // console.log(token);
 
     if (!token)
       return res.status(401).json({
@@ -52,11 +52,12 @@ const verifyUser = expressAsyncHandler(async (req, res, next) => {
       });
 
     const decodedInfo = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decodedInfo);
+    // console.log(decodedInfo);
 
     const user = await User.findById(decodedInfo?.id).select("-password");
 
-    
+    // console.log(user);
+
     if (!user)
       return res.status(401).json({
         success: false,

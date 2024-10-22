@@ -123,7 +123,8 @@ const userLogin = asyncHandler(async (req, res) => {
     user._id,
     user.contentAccess,
     user.userType,
-    user.role
+    user.role,
+    user.department
   );
 
   return res
@@ -182,4 +183,36 @@ const changePassword = asyncHandler(async (req, res) => {
   });
 });
 
-export { loginSuperAdmin, addUser, changePassword, userLogin };
+// Toggle access for a user
+const giveAccessToUser = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    // Find user by userId
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    // Toggle contentAccess between "view" and "edit"
+    user.contentAccess = user.contentAccess === "view" ? "edit" : "view";
+
+    await user.save(); // Save updated user
+
+    res.status(200).json({
+      message: "User access updated successfully.",
+      contentAccess: user.contentAccess,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error updating user access." });
+  }
+});
+
+export {
+  loginSuperAdmin,
+  addUser,
+  changePassword,
+  userLogin,
+  giveAccessToUser,
+};

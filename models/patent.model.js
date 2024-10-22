@@ -15,6 +15,19 @@ const patentSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  obtainedScore: {
+    type: Number,
+    default: 0,
+  },
+  hasContentAccess: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  department: {
+    type: String,
+  },
 });
 
 const Patent = mongoose.model("Patent", patentSchema);

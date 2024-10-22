@@ -32,6 +32,8 @@ export const createProjectProposal = expressAsyncHandler(async (req, res) => {
       status,
       isApproved: false, // Unapproved by default
       createdBy: req.user._id,
+      hasContentAccess: req.user._id,
+      department: req.user.department,
     });
 
     res.status(201).json(newProjectProposal);
@@ -76,7 +78,7 @@ export const approveProjectProposal = expressAsyncHandler(async (req, res) => {
 });
 
 // Reject (delete) a project proposal by ID
-export const rejectProjectProposal = async (req, res) => {
+export const rejectProjectProposal = expressAsyncHandler(async (req, res) => {
   const id = req.params?.id;
   console.log(id);
 
@@ -103,7 +105,7 @@ export const rejectProjectProposal = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
+});
 
 // Create a new publication (unapproved by default)
 export const createPublication = expressAsyncHandler(async (req, res) => {
@@ -134,6 +136,8 @@ export const createPublication = expressAsyncHandler(async (req, res) => {
       isScopusOrUgcCare,
       isApproved: false, // Unapproved by default
       createdBy: req.user._id,
+      hasContentAccess: req.user._id,
+      department: req.user.department,
     });
 
     res.status(201).json(newPublication);
@@ -174,7 +178,7 @@ export const approvePublication = expressAsyncHandler(async (req, res) => {
 });
 
 // Reject (delete) a publication by ID
-export const rejectPublication = async (req, res) => {
+export const rejectPublication = expressAsyncHandler(async (req, res) => {
   const id = req.params?.id;
 
   try {
@@ -198,7 +202,7 @@ export const rejectPublication = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
+});
 
 // Create a new conference (unapproved by default)
 export const createConference = expressAsyncHandler(async (req, res) => {
@@ -214,13 +218,11 @@ export const createConference = expressAsyncHandler(async (req, res) => {
       isOrganized,
       isApproved: false, // Unapproved by default
       createdBy: req.user._id,
+      hasContentAccess: req.user._id,
+      department: req.user.department,
     });
 
-    res.status(201).json({
-      data: {
-        id: newConference._id,
-      },
-    });
+    res.status(201).json(newConference);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -260,7 +262,7 @@ export const approveConference = expressAsyncHandler(async (req, res) => {
 });
 
 // Reject (delete) a conference by ID
-export const rejectConference = async (req, res) => {
+export const rejectConference = expressAsyncHandler(async (req, res) => {
   const id = req.params?.id;
 
   try {
@@ -284,7 +286,7 @@ export const rejectConference = async (req, res) => {
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
-};
+});
 
 // Create a new workshop (unapproved by default)
 export const createWorkshop = expressAsyncHandler(async (req, res) => {
@@ -299,6 +301,8 @@ export const createWorkshop = expressAsyncHandler(async (req, res) => {
       isOrganized,
       isApproved: false, // Unapproved by default
       createdBy: req.user._id,
+      hasContentAccess: req.user._id,
+      department: req.user.department,
     });
 
     res.status(201).json(newWorkshop);
@@ -339,7 +343,7 @@ export const approveWorkshop = expressAsyncHandler(async (req, res) => {
 });
 
 // Reject (delete) a workshop by ID
-export const rejectWorkshop = async (req, res) => {
+export const rejectWorkshop = expressAsyncHandler(async (req, res) => {
   const id = req.params?.id;
 
   try {
@@ -363,7 +367,7 @@ export const rejectWorkshop = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
+});
 
 // Create a new patent (unapproved by default)
 export const createPatent = expressAsyncHandler(async (req, res) => {
@@ -380,6 +384,8 @@ export const createPatent = expressAsyncHandler(async (req, res) => {
       type,
       isApproved: false, // Unapproved by default
       createdBy: req.user._id,
+      hasContentAccess: req.user._id,
+      department: req.user.department,
     });
 
     res.status(201).json(newPatent);
@@ -420,7 +426,7 @@ export const approvePatent = expressAsyncHandler(async (req, res) => {
 });
 
 // Reject (delete) a patent by ID
-export const rejectPatent = async (req, res) => {
+export const rejectPatent = expressAsyncHandler(async (req, res) => {
   const id = req.params?.id;
 
   try {
@@ -444,7 +450,7 @@ export const rejectPatent = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
+});
 
 // Create a new consultancy (unapproved by default)
 export const createConsultancy = expressAsyncHandler(async (req, res) => {
@@ -467,6 +473,8 @@ export const createConsultancy = expressAsyncHandler(async (req, res) => {
       status,
       isApproved: false, // Unapproved by default
       createdBy: req.user._id,
+      hasContentAccess: req.user._id,
+      department: req.user.department,
     });
 
     res.status(201).json(newConsultancy);
@@ -507,7 +515,7 @@ export const approveConsultancy = expressAsyncHandler(async (req, res) => {
 });
 
 // Reject (delete) a consultancy by ID
-export const rejectConsultancy = async (req, res) => {
+export const rejectConsultancy = expressAsyncHandler(async (req, res) => {
   const id = req.params?.id;
 
   try {
@@ -531,7 +539,7 @@ export const rejectConsultancy = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
+});
 
 // Create a new event competition (unapproved by default)
 export const createEventCompetition = expressAsyncHandler(async (req, res) => {
@@ -545,6 +553,7 @@ export const createEventCompetition = expressAsyncHandler(async (req, res) => {
       competitionName,
       isApproved: false, // Default to unapproved
       createdBy: req.user._id,
+      hasContentAccess: req.user._id,
     });
 
     // Return the competition entry without saving it to the database yet
@@ -597,7 +606,7 @@ export const approveEventCompetition = expressAsyncHandler(async (req, res) => {
 });
 
 // Reject (delete) an event competition by ID
-export const rejectEventCompetition = async (req, res) => {
+export const rejectEventCompetition = expressAsyncHandler(async (req, res) => {
   const id = req.params?.id;
 
   try {
@@ -625,7 +634,7 @@ export const rejectEventCompetition = async (req, res) => {
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
-};
+});
 
 // Edit a project proposal by ID
 export const editProjectProposal = expressAsyncHandler(async (req, res) => {
@@ -837,5 +846,569 @@ export const editEventCompetition = expressAsyncHandler(async (req, res) => {
     }
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+// get all Project Proposals
+export const getAllProjectProposals = expressAsyncHandler(async (req, res) => {
+  try {
+    res.set("Content-Type", "application/json");
+    res.set("Transfer-Encoding", "chunked");
+
+    const cursor = await ProjectProposal.find().cursor();
+    res.write("[");
+    let first = true;
+
+    cursor.on("data", (doc) => {
+      if (!first) res.write(",");
+      else first = false;
+      res.write(JSON.stringify(doc));
+    });
+
+    cursor.on("end", () => {
+      res.write("]");
+      res.end();
+    });
+
+    cursor.on("error", (err) => {
+      res.status(500).json({ error: "Error while streaming data." });
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching project proposals." });
+  }
+});
+
+// get all Publications
+export const getAllPublications = expressAsyncHandler(async (req, res) => {
+  try {
+    res.setHeader("Content-Type", "application/json");
+    res.setHeader("Transfer-Encoding", "chunked");
+
+    const cursor = await Publication.find().cursor();
+    res.write("[");
+    let first = true;
+
+    cursor.on("data", (doc) => {
+      if (!first) res.write(",");
+      else first = false;
+      res.write(JSON.stringify(doc));
+    });
+
+    cursor.on("end", () => {
+      res.write("]");
+      res.end();
+    });
+
+    cursor.on("error", (err) => {
+      res.status(500).json({ error: "Error while streaming data." });
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching publications." });
+  }
+});
+
+// get all Conferences
+export const getAllConferences = expressAsyncHandler(async (req, res) => {
+  try {
+    res.setHeader("Content-Type", "application/json");
+    res.setHeader("Transfer-Encoding", "chunked");
+
+    const cursor = await Conference.find().cursor();
+    res.write("[");
+    let first = true;
+
+    cursor.on("data", (doc) => {
+      if (!first) res.write(",");
+      else first = false;
+      res.write(JSON.stringify(doc));
+    });
+
+    cursor.on("end", () => {
+      res.write("]");
+      res.end();
+    });
+
+    cursor.on("error", (err) => {
+      res.status(500).json({ error: "Error while streaming data." });
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching conferences." });
+  }
+});
+
+// get all Workshops
+export const getAllWorkshops = expressAsyncHandler(async (req, res) => {
+  try {
+    res.setHeader("Content-Type", "application/json");
+    res.setHeader("Transfer-Encoding", "chunked");
+
+    const cursor = await Workshop.find().cursor();
+    res.write("[");
+    let first = true;
+
+    cursor.on("data", (doc) => {
+      if (!first) res.write(",");
+      else first = false;
+      res.write(JSON.stringify(doc));
+    });
+
+    cursor.on("end", () => {
+      res.write("]");
+      res.end();
+    });
+
+    cursor.on("error", (err) => {
+      res.status(500).json({ error: "Error while streaming data." });
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching workshops." });
+  }
+});
+
+// get all Patents
+export const getAllPatents = expressAsyncHandler(async (req, res) => {
+  try {
+    res.setHeader("Content-Type", "application/json");
+    res.setHeader("Transfer-Encoding", "chunked");
+
+    const cursor = await Patent.find().cursor();
+    res.write("[");
+    let first = true;
+
+    cursor.on("data", (doc) => {
+      if (!first) res.write(",");
+      else first = false;
+      res.write(JSON.stringify(doc));
+    });
+
+    cursor.on("end", () => {
+      res.write("]");
+      res.end();
+    });
+
+    cursor.on("error", (err) => {
+      res.status(500).json({ error: "Error while streaming data." });
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching patents." });
+  }
+});
+
+// get all Consultancies
+export const getAllConsultancies = expressAsyncHandler(async (req, res) => {
+  try {
+    res.setHeader("Content-Type", "application/json");
+    res.setHeader("Transfer-Encoding", "chunked");
+
+    const cursor = await Consultancy.find().cursor();
+    res.write("[");
+    let first = true;
+
+    cursor.on("data", (doc) => {
+      if (!first) res.write(",");
+      else first = false;
+      res.write(JSON.stringify(doc));
+    });
+
+    cursor.on("end", () => {
+      res.write("]");
+      res.end();
+    });
+
+    cursor.on("error", (err) => {
+      res.status(500).json({ error: "Error while streaming data." });
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching consultancies." });
+  }
+});
+
+// get all Event Competitions
+export const getAllEventCompetitions = expressAsyncHandler(async (req, res) => {
+  try {
+    res.setHeader("Content-Type", "application/json");
+    res.setHeader("Transfer-Encoding", "chunked");
+
+    const cursor = await EventCompetition.find().cursor();
+    res.write("[");
+    let first = true;
+
+    cursor.on("data", (doc) => {
+      if (!first) res.write(",");
+      else first = false;
+      res.write(JSON.stringify(doc));
+    });
+
+    cursor.on("end", () => {
+      res.write("]");
+      res.end();
+    });
+
+    cursor.on("error", (err) => {
+      res.status(500).json({ error: "Error while streaming data." });
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching event competitions." });
+  }
+});
+
+// Get all project proposals by user's contentAccess and department, and send data in chunks
+export const getAllProjectProposalsByAccess = expressAsyncHandler(
+  async (req, res) => {
+    try {
+      // Check if user has contentAccess: edit
+      if (req.user.contentAccess !== "edit") {
+        return res.status(403).json({
+          success: false,
+          error: "Forbidden: You do not have access to view this content.",
+        });
+      }
+
+      // Fetch data only from the same department
+      const cursor = await ProjectProposal.find({
+        $or: [{ department: req.user.department }, { createdBy: req.user._id }],
+      }).cursor();
+
+      res.set("Content-Type", "application/json");
+      res.set("Transfer-Encoding", "chunked");
+      res.write("[");
+      let first = true;
+
+      cursor.on("data", (doc) => {
+        if (!first) res.write(",");
+        else first = false;
+        res.write(JSON.stringify(doc));
+      });
+
+      cursor.on("end", () => {
+        res.write("]");
+        res.end();
+      });
+
+      cursor.on("error", (err) => {
+        res
+          .status(500)
+          .json({ success: false, error: "Error while streaming data." });
+      });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ success: false, error: "Error fetching project proposals." });
+    }
+  }
+);
+
+// Get all event competitions by user's contentAccess and department, and send data in chunks
+export const getAllEventCompetitionsByAccess = expressAsyncHandler(
+  async (req, res) => {
+    try {
+      // Check if user has contentAccess: edit
+      if (req.user.contentAccess !== "edit") {
+        return res.status(403).json({
+          success: false,
+          error: "Forbidden: You do not have access to view this content.",
+        });
+      }
+
+      // Fetch data only from the same department
+      const cursor = await EventCompetition.find({
+        $or: [{ department: req.user.department }, { createdBy: req.user._id }],
+      }).cursor();
+
+      res.set("Content-Type", "application/json");
+      res.set("Transfer-Encoding", "chunked");
+      res.write("[");
+      let first = true;
+
+      cursor.on("data", (doc) => {
+        if (!first) res.write(",");
+        else first = false;
+        res.write(JSON.stringify(doc));
+      });
+
+      cursor.on("end", () => {
+        res.write("]");
+        res.end();
+      });
+
+      cursor.on("error", (err) => {
+        res.status(500).json({ error: "Error while streaming data." });
+      });
+    } catch (error) {
+      res.status(500).json({ error: "Error fetching event competitions." });
+    }
+  }
+);
+
+// Get all conferences by user's contentAccess and department, and send data in chunks
+export const getAllConferencesByAccess = expressAsyncHandler(
+  async (req, res) => {
+    try {
+      // Check if user has contentAccess: edit
+      if (req.user.contentAccess !== "edit") {
+        return res.status(403).json({
+          error: "Forbidden: You do not have access to view this content.",
+        });
+      }
+
+      // Fetch data only from the same department
+      const cursor = await Conference.find({
+        $or: [{ department: req.user.department }, { createdBy: req.user._id }],
+      }).cursor();
+
+      res.set("Content-Type", "application/json");
+      res.set("Transfer-Encoding", "chunked");
+      res.write("[");
+      let first = true;
+
+      cursor.on("data", (doc) => {
+        if (!first) res.write(",");
+        else first = false;
+        res.write(JSON.stringify(doc));
+      });
+
+      cursor.on("end", () => {
+        res.write("]");
+        res.end();
+      });
+
+      cursor.on("error", (err) => {
+        res.status(500).json({ error: "Error while streaming data." });
+      });
+    } catch (error) {
+      res.status(500).json({ error: "Error fetching conferences." });
+    }
+  }
+);
+
+// Get all consultancies by user's contentAccess and department, and send data in chunks
+export const getAllConsultanciesByAccess = expressAsyncHandler(
+  async (req, res) => {
+    try {
+      // Check if user has contentAccess: edit
+      if (req.user.contentAccess !== "edit") {
+        return res.status(403).json({
+          error: "Forbidden: You do not have access to view this content.",
+        });
+      }
+
+      // Fetch data only from the same department
+      const cursor = await Consultancy.find({
+        $or: [{ department: req.user.department }, { createdBy: req.user._id }],
+      }).cursor();
+
+      res.set("Content-Type", "application/json");
+      res.set("Transfer-Encoding", "chunked");
+      res.write("[");
+      let first = true;
+
+      cursor.on("data", (doc) => {
+        if (!first) res.write(",");
+        else first = false;
+        res.write(JSON.stringify(doc));
+      });
+
+      cursor.on("end", () => {
+        res.write("]");
+        res.end();
+      });
+
+      cursor.on("error", (err) => {
+        res.status(500).json({ error: "Error while streaming data." });
+      });
+    } catch (error) {
+      res.status(500).json({ error: "Error fetching consultancies." });
+    }
+  }
+);
+
+// Get all patents by user's contentAccess and department, and send data in chunks
+export const getAllPatentsByAccess = expressAsyncHandler(async (req, res) => {
+  try {
+    // Check if user has contentAccess: edit
+    if (req.user.contentAccess !== "edit") {
+      return res.status(403).json({
+        error: "Forbidden: You do not have access to view this content.",
+      });
+    }
+
+    // Fetch data only from the same department
+    const cursor = await Patent.find({
+      $or: [{ department: req.user.department }, { createdBy: req.user._id }],
+    }).cursor();
+
+    res.set("Content-Type", "application/json");
+    res.set("Transfer-Encoding", "chunked");
+    res.write("[");
+    let first = true;
+
+    cursor.on("data", (doc) => {
+      if (!first) res.write(",");
+      else first = false;
+      res.write(JSON.stringify(doc));
+    });
+
+    cursor.on("end", () => {
+      res.write("]");
+      res.end();
+    });
+
+    cursor.on("error", (err) => {
+      res.status(500).json({ error: "Error while streaming data." });
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching patents." });
+  }
+});
+
+// Get all publications by user's contentAccess and department, and send data in chunks
+export const getAllPublicationsByAccess = expressAsyncHandler(
+  async (req, res) => {
+    try {
+      // Check if user has contentAccess: edit
+      if (req.user.contentAccess !== "edit") {
+        return res.status(403).json({
+          error: "Forbidden: You do not have access to view this content.",
+        });
+      }
+
+      // Fetch data only from the same department
+      const cursor = await Publication.find({
+        $or: [{ department: req.user.department }, { createdBy: req.user._id }],
+      }).cursor();
+
+      res.set("Content-Type", "application/json");
+      res.set("Transfer-Encoding", "chunked");
+      res.write("[");
+      let first = true;
+
+      cursor.on("data", (doc) => {
+        if (!first) res.write(",");
+        else first = false;
+        res.write(JSON.stringify(doc));
+      });
+
+      cursor.on("end", () => {
+        res.write("]");
+        res.end();
+      });
+
+      cursor.on("error", (err) => {
+        res.status(500).json({ error: "Error while streaming data." });
+      });
+    } catch (error) {
+      res.status(500).json({ error: "Error fetching publications." });
+    }
+  }
+);
+
+// Get all workshops by user's contentAccess and department, and send data in chunks
+export const getAllWorkshopsByAccess = expressAsyncHandler(async (req, res) => {
+  try {
+    // Check if user has contentAccess: edit
+    if (req.user.contentAccess !== "edit") {
+      return res.status(403).json({
+        error: "Forbidden: You do not have access to view this content.",
+      });
+    }
+
+    // Fetch data only from the same department
+    const cursor = await Workshop.find({
+      $or: [{ department: req.user.department }, { createdBy: req.user._id }],
+    }).cursor();
+
+    res.set("Content-Type", "application/json");
+    res.set("Transfer-Encoding", "chunked");
+    res.write("[");
+    let first = true;
+
+    cursor.on("data", (doc) => {
+      if (!first) res.write(",");
+      else first = false;
+      res.write(JSON.stringify(doc));
+    });
+
+    cursor.on("end", () => {
+      res.write("]");
+      res.end();
+    });
+
+    cursor.on("error", (err) => {
+      res.status(500).json({ error: "Error while streaming data." });
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching workshops." });
+  }
+});
+
+// Get all project proposals created by the current user
+export const getUserProjectProposals = expressAsyncHandler(async (req, res) => {
+  try {
+    const proposals = await ProjectProposal.find({ createdBy: req.user._id });
+    res.status(200).json(proposals);
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching project proposals." });
+  }
+});
+
+// Get all conferences created by the current user
+export const getUserConferences = expressAsyncHandler(async (req, res) => {
+  try {
+    const conferences = await Conference.find({ createdBy: req.user._id });
+    res.status(200).json(conferences);
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching conferences." });
+  }
+});
+
+// Get all consultancies created by the current user
+export const getUserConsultancies = expressAsyncHandler(async (req, res) => {
+  try {
+    const consultancies = await Consultancy.find({ createdBy: req.user._id });
+    res.status(200).json(consultancies);
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching consultancies." });
+  }
+});
+
+// Get all event competitions created by the current user
+export const getUserEventCompetitions = expressAsyncHandler(
+  async (req, res) => {
+    try {
+      const events = await EventCompetition.find({ createdBy: req.user._id });
+      res.status(200).json(events);
+    } catch (error) {
+      res.status(500).json({ error: "Error fetching event competitions." });
+    }
+  }
+);
+
+// Get all patents created by the current user
+export const getUserPatents = expressAsyncHandler(async (req, res) => {
+  try {
+    const patents = await Patent.find({ createdBy: req.user._id });
+    res.status(200).json(patents);
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching patents." });
+  }
+});
+
+// Get all publications created by the current user
+export const getUserPublications = expressAsyncHandler(async (req, res) => {
+  try {
+    const publications = await Publication.find({ createdBy: req.user._id });
+    res.status(200).json(publications);
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching publications." });
+  }
+});
+
+// Get all workshops created by the current user
+export const getUserWorkshops = expressAsyncHandler(async (req, res) => {
+  try {
+    const workshops = await Workshop.find({ createdBy: req.user._id });
+    res.status(200).json(workshops);
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching workshops." });
   }
 });

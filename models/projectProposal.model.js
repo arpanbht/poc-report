@@ -20,6 +20,19 @@ const projectProposalSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  obtainedScore: {
+    type: Number,
+    default: 0,
+  },
+  hasContentAccess: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  department: {
+    type: String,
+  },
 });
 
 const ProjectProposal = mongoose.model(
